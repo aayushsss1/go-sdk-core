@@ -318,8 +318,8 @@ func GetQueryParamAsInt(urlStr *string, param string) (value *int64, err error) 
 
 // Pre-compiled regular expressions used by RedactSecrets().
 var reAuthHeader = regexp.MustCompile(`(?m)^(Authorization|X-Auth\S*): .*`)
-var rePassword1 = regexp.MustCompile(`(?i)(password|token|apikey|api_key|passcode)=[^&]*(&|$)`)
-var rePassword2 = regexp.MustCompile(`(?i)"([^"]*(password|token|apikey|api_key)[^"_]*)":\s*"[^\,]*"`)
+var rePassword1 = regexp.MustCompile(`(?i)(password|token|apikey|api_key|passcode|api-key)=[^&]*(&|$)`)
+var rePassword2 = regexp.MustCompile(`(?i)"([^"]*(password|token|apikey|api_key|api-key)[^"_]*)":\s*"[^\,]*"`)
 
 // RedactSecrets() returns the input string with secrets redacted.
 func RedactSecrets(input string) string {
