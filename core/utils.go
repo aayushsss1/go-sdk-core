@@ -320,6 +320,7 @@ func GetQueryParamAsInt(urlStr *string, param string) (value *int64, err error) 
 var reAuthHeader = regexp.MustCompile(`(?m)^(Authorization|X-Auth\S*): .*`)
 var rePassword1 = regexp.MustCompile(`(?i)(password|token|apikey|api_key|passcode|api-key)=[^&]*(&|$)`)
 var rePassword2 = regexp.MustCompile(`(?i)"([^"]*(password|token|apikey|api_key|api-key)[^"_]*)":\s*"[^\,]*"`)
+var rePassword3 = regexp.MustCompile(`(?i)"([^"]*(password|token|apikey|api_key|api-key|secret|key|access|thumbprint|auth|project_id|client_id|client_email|tenantId|subscriptionId|aadClientId|aadClientSecret|client_x509_cert_url)[^"_]*)":\s*"[^\,]*"`)
 
 // RedactSecrets() returns the input string with secrets redacted.
 func RedactSecrets(input string) string {
@@ -329,6 +330,7 @@ func RedactSecrets(input string) string {
 	redactedString = reAuthHeader.ReplaceAllString(redactedString, "$1: "+redacted)
 	redactedString = rePassword1.ReplaceAllString(redactedString, "$1="+redacted+"$2")
 	redactedString = rePassword2.ReplaceAllString(redactedString, fmt.Sprintf(`"$1":"%s"`, redacted))
+	redactedString = rePassword3.ReplaceAllString(redactedString, fmt.Sprintf(`"$1":"%s"`, redacted))
 
 	return redactedString
 }
